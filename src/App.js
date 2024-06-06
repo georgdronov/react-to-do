@@ -5,35 +5,37 @@ import { PostFilter } from "./components/PostFilter";
 import { MyModal } from "./components/UI/MyModal/MyModal";
 import { MyButton } from "./components/UI/button/MyButton";
 import { usePosts } from "./hooks/usePost";
-import axios from "axios";
-import './styles/App.css'
-
+import './styles/App.css';
+import PostService from "./API/PostService";
 
 function App() {
 
-  const [posts, setPosts] = useState([])
-  const [filter, setFilter] = useState({ sort: '', query: '' })
-  const [modal, setModal] = useState(false)
-  const sortedAndSearchPosts = usePosts(posts, filter.sort, filter.query)
+  const [posts, setPosts] = useState([]);
+  const [filter, setFilter] = useState({ sort: '', query: '' });
+  const [modal, setModal] = useState(false);
+  const sortedAndSearchPosts = usePosts(posts, filter.sort, filter.query);
+
+  const fetchPosts = async () => {
+    try {
+      const posts = await PostService.getAll();
+      setPosts(posts);
+    } catch (error) {
+      console.error("Failed to fetch posts", error);
+    }
+  };
 
   useEffect(() => {
-    fetchPosts()
-  }, [])
+    fetchPosts();
+  }, []);
 
   const createPost = (newPost) => {
-    setPosts([...posts, newPost])
-    setModal(false)
-  }
-
-  async function fetchPosts() {
-    const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
-    setPosts(response.data)
-  }
+    setPosts([...posts, newPost]);
+    setModal(false);
+  };
 
   const removePost = (post) => {
-    setPosts(posts.filter(p => p.id !== post.id))
-  }
-
+    setPosts(posts.filter(p => p.id !== post.id));
+  };
 
   return (
     <div className="App">
