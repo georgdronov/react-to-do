@@ -7,6 +7,7 @@ import { MyButton } from "./components/UI/button/MyButton";
 import { usePosts } from "./hooks/usePost";
 import "./styles/App.css";
 import PostService from "./API/PostService";
+import { Loader } from "./components/UI/Loader/Loader";
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -26,9 +27,11 @@ function App() {
 
   async function fetchPosts() {
     setIsPostsLoading(true);
-    const posts = await PostService.getAll();
-    setPosts(posts);
-    setIsPostsLoading(false);
+    setTimeout(async () => {
+      const posts = await PostService.getAll();
+      setPosts(posts);
+      setIsPostsLoading(false);
+    }, 1000);
   }
 
   const removePost = (post) => {
@@ -47,7 +50,11 @@ function App() {
       <hr style={{ margin: "15px 0" }} />
       <PostFilter filter={filter} setFilter={setFilter} />
       {isPostsLoading ? (
-        <h1>Now download...</h1>
+        <div
+          style={{ display: "flex", justifyContent: "center", marginTop: 50 }}
+        >
+          <Loader />
+        </div>
       ) : (
         <PostList
           remove={removePost}
