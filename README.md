@@ -1,3 +1,6 @@
+## jsonplaceholder
+Если вы запускаете приложение в СНГ то используйте `VPN`, данный сервис блокирует `IP`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
