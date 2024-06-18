@@ -30,7 +30,7 @@ function Posts() {
     }
   );
 
-  console.log(totalPages);
+
 
   useEffect(() => {
     fetchPosts(limit, page);
